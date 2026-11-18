@@ -3,7 +3,7 @@
 // ============================================================
 
 // Ta clé TMDB (themoviedb.org > Paramètres > API). À remplir toi-même.
-const API_KEY = "TA_CLE";
+const API_KEY = "5b2274f7cda860714b6c3c5077e38568";
 
 // Humeur (value du menu) -> identifiant de genre TMDB
 const GENRES = {
