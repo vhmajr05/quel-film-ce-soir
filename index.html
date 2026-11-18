@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quel film ce soir ? — Ton film trouvé en deux clics</title>
+  <meta name="description" content="Choisis ton humeur, ta durée, tes envies : Quel film ce soir ? te propose le film parfait. Pépites, tendances, favoris." />
+  <meta name="theme-color" content="#0a0a0b" />
+  <!-- Favicon intégré (SVG) : aucun fichier à ajouter -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230a0a0b'/%3E%3Ctext x='50' y='68' font-size='56' text-anchor='middle'%3E🎬%3C/text%3E%3C/svg%3E" />
+  <!-- Open Graph : remplace TON-SITE.netlify.app et ajoute og-image.jpg (1200x630) à côté de index.html -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Quel film ce soir ?" />
+  <meta property="og:description" content="Ton film de ce soir, trouvé en deux clics. 🎬" />
+  <meta property="og:image" content="https://TON-SITE.netlify.app/og-image.jpg" />
+  <meta property="og:url" content="https://TON-SITE.netlify.app/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="top">
+    <a class="logo" href="./">🎬 Quel film <b>ce soir ?</b></a>
+    <!-- Navigation : en bas sur mobile, en haut sur ordinateur -->
+    <nav id="nav" aria-label="Navigation principale">
+      <button data-vue="accueil" class="actif">🏠 <span>Accueil</span></button>
+      <button data-vue="explorer">🔎 <span>Explorer</span></button>
+      <button data-vue="favoris">♥ <span>Favoris</span></button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ===== ACCUEIL ===== -->
+    <section id="vue-accueil" class="vue">
+      <div class="hero">
+        <h1>Ton film de ce soir,<br /><em>trouvé en deux clics.</em></h1>
+        <p class="doux">Dis-nous ton humeur, on choisit pour toi.</p>
+
+        <div class="filtres">
+          <label>Humeur <select id="humeur"></select></label>
+          <label>Durée max
+            <select id="duree">
+              <option value="90">1h30</option><option value="120">2h</option>
+              <option value="150">2h30</option><option value="">Peu importe</option>
+            </select></label>
+          <label>Sortie depuis
+            <select id="annee">
+              <option value="">Toutes</option><option value="2020">2020</option><option value="2010">2010</option>
+              <option value="2000">2000</option><option value="1990">1990</option><option value="1970">1970</option>
+            </select></label>
+          <label>Note min.
+            <select id="note">
+              <option value="">Toutes</option><option value="6">6+</option><option value="7">7+</option><option value="8">8+</option>
+            </select></label>
+          <label>Langue
+            <select id="langue">
+              <option value="">Toutes</option><option value="fr">Français</option><option value="en">Anglais</option>
+              <option value="es">Espagnol</option><option value="ja">Japonais</option><option value="ko">Coréen</option>
+            </select></label>
+        </div>
+
+        <div class="boutons">
+          <button id="btn-trouver" class="btn-or">Trouve-moi un film 🎬</button>
+          <button id="btn-surprise" class="btn-ghost">✨ Surprends-moi</button>
+        </div>
+        <div id="chips" class="chips" aria-label="Choisir une humeur"></div>
+      </div>
+
+      <!-- Le film proposé s'affiche ici (id conservé) -->
+      <div id="resultat" aria-live="polite"></div>
+
+      <h2>Populaires</h2><div id="row-populaires" class="rangee"></div>
+      <h2>Les pépites cachées</h2><div id="row-pepites" class="rangee"></div>
+      <h2>Tendances du moment</h2><div id="row-tendances" class="rangee"></div>
+    </section>
+
+    <!-- ===== EXPLORER ===== -->
+    <section id="vue-explorer" class="vue" hidden>
+      <h2>Explorer</h2>
+      <div class="filtres">
+        <label>Recherche <input id="q" type="search" placeholder="Titre d'un film…" /></label>
+        <label>Catégorie
+          <select id="cat">
+            <option value="populaires">Populaires</option><option value="mieux">Les mieux notés</option>
+            <option value="recents">Récents</option><option value="pepites">Pépites méconnues</option>
+          </select></label>
+        <label>Genre <select id="genre"></select></label>
+      </div>
+      <div id="grille" class="grille"></div>
+      <div class="centre"><button id="plus" class="btn-ghost" hidden>Voir plus</button></div>
+    </section>
+
+    <!-- ===== FAVORIS ===== -->
+    <section id="vue-favoris" class="vue" hidden>
+      <h2>Mes favoris</h2>
+      <div id="grille-favs" class="grille"></div>
+    </section>
+  </main>
+
+  <script src="app.js" defer></script>
+</body>
+</html>

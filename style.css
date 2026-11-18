@@ -1,0 +1,75 @@
+:root{--noir:#0a0a0b;--surface:#16161a;--surface2:#212127;--or:#c9a24b;--or2:#e6c978;--texte:#f2ede4;--doux:#9a958a}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--texte);background:radial-gradient(1000px 480px at 50% -10%,#241f12,var(--noir) 65%) no-repeat,var(--noir);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}
+h1,h2,.logo{font-family:Georgia,"Times New Roman",serif;letter-spacing:.01em}
+h1{font-size:clamp(2rem,6vw,3.4rem);line-height:1.1;margin:.2em 0}
+h1 em{color:var(--or2);font-style:italic}
+h2{font-size:1.4rem;margin:2.2rem 0 .8rem}
+.doux{color:var(--doux)}
+main{max-width:1000px;margin:0 auto;padding:1rem 1rem 6rem}
+.vue[hidden]{display:none}
+.centre{text-align:center;margin:1.5rem 0}
+
+/* En-tête + navigation */
+.top{display:flex;justify-content:space-between;align-items:center;padding:.9rem 1.2rem;max-width:1000px;margin:0 auto}
+.logo{color:var(--texte);text-decoration:none;font-size:1.25rem}.logo b{color:var(--or2)}
+#nav{display:flex;gap:.3rem}
+#nav button{background:none;border:0;color:var(--doux);padding:.5rem .8rem;border-radius:999px;cursor:pointer;font:inherit}
+#nav button.actif,#nav button:hover{color:var(--or2);background:var(--surface)}
+@media(max-width:640px){
+  #nav{position:fixed;bottom:0;left:0;right:0;z-index:20;justify-content:space-around;padding:.4rem .5rem calc(.4rem + env(safe-area-inset-bottom));background:rgba(10,10,11,.92);backdrop-filter:blur(10px);border-top:1px solid #2a2a30}
+  #nav button{display:flex;flex-direction:column;align-items:center;font-size:.72rem;gap:.1rem}
+}
+
+/* Filtres et boutons */
+.filtres{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.7rem;margin:1.2rem 0}
+.filtres label{display:flex;flex-direction:column;gap:.25rem;font-size:.8rem;color:var(--doux)}
+select,input{background:var(--surface);color:var(--texte);border:1px solid #2c2c33;border-radius:12px;padding:.7rem;font:inherit;font-size:1rem}
+select:focus,input:focus{outline:0;border-color:var(--or)}
+.boutons{display:flex;gap:.7rem;flex-wrap:wrap}
+.btn-or,.btn-ghost{border-radius:14px;padding:.9rem 1.4rem;font:inherit;font-weight:700;cursor:pointer;transition:transform .2s ease,background .2s}
+.btn-or{background:linear-gradient(135deg,var(--or2),var(--or));color:#14110a;border:0;flex:1;min-width:200px}
+.btn-ghost{background:transparent;color:var(--or2);border:1px solid var(--or)}
+.btn-ghost:hover{background:rgba(201,162,75,.12)}
+#btn-trouver:hover,.btn-or:hover{transform:scale(1.04)}
+.btn-or:active,.btn-ghost:active{transform:scale(.98)}
+.chips{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1rem}
+.chip{background:var(--surface);color:var(--texte);border:1px solid #2c2c33;border-radius:999px;padding:.45rem .9rem;cursor:pointer;font:inherit;font-size:.9rem}
+.chip:hover{border-color:var(--or);color:var(--or2)}
+
+/* Rangées et grilles d'affiches */
+.rangee{display:flex;gap:.8rem;overflow-x:auto;scroll-snap-type:x proximity;padding-bottom:.6rem}
+.grille{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.9rem}
+.mini{background:none;border:0;padding:0;color:inherit;text-align:left;cursor:pointer;flex:0 0 130px;scroll-snap-align:start;font:inherit}
+.grille .mini{flex:auto}
+.mini img,.sans-affiche{width:100%;aspect-ratio:2/3;object-fit:cover;border-radius:14px;background:var(--surface);box-shadow:0 8px 20px rgba(0,0,0,.5);transition:transform .25s ease}
+.mini:hover img{transform:translateY(-4px)}
+.mini span{display:block;font-size:.82rem;margin-top:.4rem;color:var(--doux)}
+.sans-affiche{display:grid;place-items:center;font-size:2rem}
+
+/* Carte film (fade-in conservé) */
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.carte-film{background:var(--surface);border-radius:1.25rem;box-shadow:0 20px 40px rgba(0,0,0,.6);overflow:hidden;animation:fadeIn .6s ease-out;margin-top:1.5rem;display:grid}
+.carte-film .affiche img,.carte-film .affiche .sans-affiche{border-radius:0;box-shadow:none}
+.carte-film .infos{padding:1.3rem;display:flex;flex-direction:column;gap:.6rem}
+.carte-film h2{margin:0;font-size:1.7rem}
+.original,.meta{color:var(--doux);font-size:.9rem;margin:0}
+.note{color:var(--or2);font-weight:700}
+.synopsis{line-height:1.6;color:#d8d3c8}
+.actions{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.5rem}
+.actions .btn-ghost{padding:.65rem 1rem;font-size:.9rem;flex:1;min-width:130px}
+.actions a.btn-ghost{text-decoration:none;text-align:center}
+@media(min-width:720px){.carte-film{grid-template-columns:300px 1fr}}
+
+/* États de chargement et animation "Surprends-moi" */
+.squelette{min-height:260px;background:linear-gradient(100deg,var(--surface) 30%,var(--surface2) 50%,var(--surface) 70%);background-size:200% 100%;animation:brille 1.3s linear infinite}
+@keyframes brille{to{background-position:-200% 0}}
+.surprise{text-align:center;padding:2.5rem 1rem;color:var(--or2);font-family:Georgia,serif}
+.bobine{font-size:4rem;display:inline-block;animation:tourne 1s linear infinite}
+@keyframes tourne{to{transform:rotate(360deg)}}
+.msg{text-align:center;color:var(--doux);margin:1.5rem 0}.msg.erreur{color:#e58a8a}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
