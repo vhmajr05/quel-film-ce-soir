@@ -1,0 +1,36 @@
+/* ===== 1. Animation fade-in =====
+   @keyframes décrit les étapes : on part invisible et légèrement plus bas,
+   on arrive visible à sa place. */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== 2. Carte film =====
+   La classe "carte-film" est ajoutée par app.js sur chaque film affiché.
+   Comme la carte est créée à chaque recherche, l'animation se rejoue à chaque fois. */
+.carte-film {
+  background: #18181b;                           /* gris très foncé */
+  border-radius: 1.25rem;                        /* coins arrondis */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);   /* ombre portée */
+  overflow: hidden;                              /* l'affiche suit les coins arrondis */
+  animation: fadeIn 0.6s ease-out;               /* applique le fade-in */
+}
+
+/* ===== 3. Hover du bouton principal =====
+   transition = rend le changement progressif plutôt que brusque */
+#btn-trouver {
+  transition: transform 0.2s ease;
+}
+#btn-trouver:hover {
+  transform: scale(1.05);                        /* +5 % de taille */
+}
+#btn-trouver:active {
+  transform: scale(0.98);                        /* petit effet "enfoncé" au clic */
+}
+
+/* Accessibilité : si l'utilisateur a désactivé les animations dans son système, on les coupe */
+@media (prefers-reduced-motion: reduce) {
+  .carte-film { animation: none; }
+  #btn-trouver { transition: none; }
+}
