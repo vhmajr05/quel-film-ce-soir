@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quel film ce soir ? — Ton film trouvé en deux clics</title>
+  <meta name="description" content="Choisis ton humeur, ta durée, tes envies : Quel film ce soir ? te propose le film parfait. Pépites, tendances, favoris." />
+  <meta name="theme-color" content="#0a0a0b" />
+  <!-- Favicon intégré (SVG) : aucun fichier à ajouter -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230a0a0b'/%3E%3Ctext x='50' y='68' font-size='56' text-anchor='middle'%3E🎬%3C/text%3E%3C/svg%3E" />
+  <!-- Open Graph : remplace TON-SITE.netlify.app et ajoute og-image.jpg (1200x630) à côté de index.html -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Quel film ce soir ?" />
+  <meta property="og:description" content="Ton film de ce soir, trouvé en deux clics. 🎬" />
+  <meta property="og:image" content="https://TON-SITE.netlify.app/og-image.jpg" />
+  <meta property="og:url" content="https://TON-SITE.netlify.app/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="top">
+    <a class="logo" href="./">🎬 Quel film <b>ce soir ?</b></a>
+    <nav id="nav" aria-label="Navigation principale">
+      <button data-vue="accueil" class="actif"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span>Accueil</span></button>
+      <button data-vue="explorer"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg><span>Explorer</span></button>
+      <button data-vue="favoris"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-9-9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c-2 4.6-9 9-9 9z"/></svg><span>Favoris</span></button>
+      <button data-vue="recherche"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><span>Recherche</span></button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ===== ACCUEIL : épuré (titre, bouton Surprise, carrousels) ===== -->
+    <section id="vue-accueil" class="vue">
+      <div class="hero">
+        <h1>Ton film de ce soir,<br /><em>trouvé en deux clics.</em></h1>
+        <button id="btn-surprise" class="btn-or w-full text-lg">✨ Surprends-moi</button>
+        <!-- Apparaît quand un film est affiché : mène aux filtres (onglet Explorer) -->
+        <button id="btn-criteres" class="btn-discret" hidden>✏️ Modifier mes critères</button>
+      </div>
+
+      <div id="resultat" aria-live="polite"></div>
+
+      <!-- Carrousels : flex + overflow-x-auto + snap-x + space-x-4, barre de défilement masquée -->
+      <h2>Populaires</h2>
+      <div class="rel-carr"><button class="fleche g" data-defile="-1" aria-label="Défiler vers la gauche">‹</button><div id="row-populaires" class="carrousel scrollbar-hide flex snap-x snap-mandatory space-x-4 overflow-x-auto py-2 -mx-4 px-4"></div><button class="fleche d" data-defile="1" aria-label="Défiler vers la droite">›</button></div>
+      <h2>Les pépites cachées</h2>
+      <div class="rel-carr"><button class="fleche g" data-defile="-1" aria-label="Défiler vers la gauche">‹</button><div id="row-pepites" class="carrousel scrollbar-hide flex snap-x snap-mandatory space-x-4 overflow-x-auto py-2 -mx-4 px-4"></div><button class="fleche d" data-defile="1" aria-label="Défiler vers la droite">›</button></div>
+      <h2>Tendances du moment</h2>
+      <div class="rel-carr"><button class="fleche g" data-defile="-1" aria-label="Défiler vers la gauche">‹</button><div id="row-tendances" class="carrousel scrollbar-hide flex snap-x snap-mandatory space-x-4 overflow-x-auto py-2 -mx-4 px-4"></div><button class="fleche d" data-defile="1" aria-label="Défiler vers la droite">›</button></div>
+    </section>
+
+    <!-- ===== EXPLORER : filtres (un seul panneau) + catalogue ===== -->
+    <section id="vue-explorer" class="vue" hidden>
+      <h2>Explorer</h2>
+      <div id="criteres">
+        <div class="filtres">
+          <label>Catégorie
+            <select id="cat">
+              <option value="populaires">Populaires</option><option value="mieux">Les mieux notés</option>
+              <option value="recents">Récents</option><option value="pepites">Pépites méconnues</option>
+            </select></label>
+          <label>Humeur <select id="humeur"></select></label>
+          <label>Durée max
+            <select id="duree">
+              <option value="90">1h30</option><option value="120">2h</option>
+              <option value="150">2h30</option><option value="">Peu importe</option>
+            </select></label>
+          <label>Sortie depuis
+            <select id="annee">
+              <option value="">Toutes</option><option value="2020">2020</option><option value="2010">2010</option>
+              <option value="2000">2000</option><option value="1990">1990</option><option value="1970">1970</option>
+            </select></label>
+          <label>Note min.
+            <select id="note">
+              <option value="">Toutes</option><option value="6">6+</option><option value="7">7+</option><option value="8">8+</option>
+            </select></label>
+          <label>Langue
+            <select id="langue">
+              <option value="">Toutes</option><option value="fr">Français</option><option value="en">Anglais</option>
+              <option value="es">Espagnol</option><option value="ja">Japonais</option><option value="ko">Coréen</option>
+            </select></label>
+        </div>
+        <div class="boutons">
+          <button id="btn-appliquer" class="btn-or">Appliquer les filtres</button>
+          <button id="btn-trouver" class="btn-ghost">🎬 Trouve-moi un film</button>
+          <button id="btn-reset" class="btn-discret">Réinitialiser</button>
+        </div>
+        <div id="chips" class="chips" aria-label="Choisir une humeur"></div>
+      </div>
+      <div id="grille" class="grille mt-6"></div>
+      <div class="centre"><button id="plus" class="btn-ghost" hidden>Voir plus</button></div>
+    </section>
+
+    <!-- ===== RECHERCHE PAR TITRE ===== -->
+    <section id="vue-recherche" class="vue" hidden>
+      <h2>Recherche</h2>
+      <input id="q" type="search" placeholder="Titre d'un film…" class="w-full" aria-label="Rechercher un film" autocomplete="off" />
+      <div id="grille-recherche" class="grille mt-6"></div>
+      <div class="centre"><button id="plus-recherche" class="btn-ghost" hidden>Voir plus</button></div>
+    </section>
+
+    <!-- ===== FAVORIS ===== -->
+    <section id="vue-favoris" class="vue" hidden>
+      <h2>Mes favoris</h2>
+      <div id="grille-favs" class="grille"></div>
+    </section>
+  </main>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
